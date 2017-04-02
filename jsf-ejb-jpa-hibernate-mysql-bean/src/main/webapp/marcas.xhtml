@@ -1,0 +1,101 @@
+<!DOCTYPE  html PUBLIC "-//W3C//DTDXHTML1.0Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	
+<h:head> 
+
+<h:outputStylesheet library="css" name="carros.css" />
+
+	<title>Mrcas Crud JSF-RICH-EJB-JPA</title>
+
+	
+</h:head>
+<h:body>
+
+
+
+	<h:form id="formCarro">
+
+		<h:messages id="messages"></h:messages>
+
+		<br />
+
+	
+		<div class="divCadastrar" align="left">
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Codigo:" for="campo-codigo" />
+				<h:inputText disabled="true" value="#{marcaBean.marcaForm.codigo}" id="campo-codigo" />
+
+				<h:outputLabel value="Nome da Marca" for="campo-nome" />
+				<h:inputText value="#{marcaBean.marcaForm.nome}" id="campo-nome">
+
+					<a4j:ajax event="keyup" render="modeloText" />
+				</h:inputText>
+
+				<h:outputText id="modeloText" value="#{marcaBean.marcaForm.nome}" />
+				
+				<a4j:commandButton render="formCarro, panelGroupTabelaCarros" styleClass="richButton" 
+					 value="Adicionar" action="#{marcaBean.adicionaMarca}">
+				</a4j:commandButton> 
+				
+			</h:panelGrid>
+
+		</div>
+
+	<h:panelGroup id="panelGroupTabelaCarros">
+		<h:panelGroup rendered="#{not empty marcaBean.marcas}">
+			<div class="divTable">
+				<rich:dataTable
+					
+					id="tabelaCarros" value="#{marcaBean.marcas}" var="marca" rows="10"
+					iterationStatusVar="it">
+	
+					<rich:column>
+						<f:facet name="header">#</f:facet>	
+	                #{it.index}
+	
+	                </rich:column>
+	
+					<rich:column>
+						<f:facet name="header">Codigo</f:facet>
+						<h:outputText value="#{marca.codigo}"></h:outputText>
+					</rich:column>
+	
+					<rich:column>
+						<f:facet name="header">Marca</f:facet>
+						<h:outputText value="#{marca.nome}"></h:outputText>
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">Data de Criação</f:facet>
+						<h:outputText value="#{marca.dataCriacao}"></h:outputText>
+					</rich:column>
+	
+					<rich:column>
+						<f:facet name="header">Editar</f:facet>
+	
+					</rich:column>
+	
+					<rich:column>
+						<f:facet name="header">Excluir</f:facet>
+	
+					</rich:column>				
+					
+	
+					<f:facet name="footer">
+						<rich:dataScroller page="#{marcaBean.page}" fastStep="3" />
+					</f:facet>
+	
+				</rich:dataTable>
+			</div>
+		</h:panelGroup>
+	</h:panelGroup>
+	</h:form>
+</h:body>
+
+</html>

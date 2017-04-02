@@ -1,0 +1,187 @@
+<!DOCTYPE  html PUBLIC "-//W3C//DTDXHTML1.0Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	
+<h:head> 
+
+<h:outputStylesheet library="css" name="carros.css" />
+
+	<title>Crud JSF-RICH-EJB-JPA</title>
+	
+	
+
+	<script></script>
+	
+</h:head>
+<h:body>
+
+
+
+	<h:form id="formCarro">
+
+		<h:messages id="messages"></h:messages>
+
+		<br />
+
+		<a4j:jsFunction name="selecionarCarro"
+			action="#{carroBean.selecionarCarro}"
+			render="painelCarroResumo, modeloOutText, panelBtnConfirmarSalvar, messages">
+
+			<a4j:param name="param1" assignTo="#{carroBean.carroForm.id}"></a4j:param>
+			<a4j:param name="param2" assignTo="#{carroBean.carroForm.marca}"></a4j:param>
+			<a4j:param name="param3" assignTo="#{carroBean.carroForm.modelo}"></a4j:param>
+			<a4j:param name="param3" assignTo="#{carroBean.carroForm.descricao}"></a4j:param>
+
+		</a4j:jsFunction>
+		
+		<a4j:jsFunction name="renderizaTooltipDescricao" 
+						action="#{carroBean.renderizaTooltipDescricao}" 
+						status="ajaxStatus"
+						render="tooltip1,tooltip2">
+			<a4j:param name="valorTooltip" assignTo="#{carroBean.carroForm.id}"> </a4j:param>
+		
+		</a4j:jsFunction>
+
+
+	
+		<div class="divCadastrar" align="left">
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Marca:" for="campo-marca" />
+				<h:inputText value="#{carroBean.carro.marca}" id="campo-marca" />
+
+				<h:outputLabel value="Modelo:" for="campo-modelo" />
+
+				<h:inputText value="#{carroBean.carro.modelo}" id="campo-modelo">
+
+					<a4j:ajax event="keyup" render="modeloText" />
+				</h:inputText>
+
+				<h:outputText id="modeloText" value="#{carroBean.carro.modelo}" />
+				
+				<h:commandButton styleClass="richButton" disabled="#{carroBean.disabledBtnAdicionar}" value="Adicionar" action="#{carroBean.adicionaCarro}" />
+				
+			</h:panelGrid>
+
+		</div>
+
+		<!-- 
+		<h:panelGroup rendered="#{not empty carroBean.listaCarros}">
+		<h1>Lista de carros:</h1>
+		<ul>
+			<ui:repeat value ="#{carroBean.listaCarros}" var="carro">
+				<li><h:outputText value ="#{carro.marca}     #{carro.modelo}"/></li>
+			</ui:repeat>
+		</ul>
+		</h:panelGroup> -->
+
+
+		<div class="divTable">
+			<rich:dataTable
+				onrowclick="selecionarCarro('#{carro.id}', '#{carro.marca}', '#{carro.modelo}');"
+				onrowmouseover="renderizaTooltipDescricao('#{carro.id}');"
+				id="tabelaCarros" value="#{carroBean.listaCarros}" var="carro" rows="10"
+				iterationStatusVar="it">			
+				
+			
+
+				<rich:column>
+					<f:facet name="header">#</f:facet>	
+                #{it.index}
+                	
+							<rich:tooltip hideDelay="0"  id="tooltip1" followMouse="true" mode="ajax" layout="block">
+										<rich:panel>
+										<h:outputText value="#{carroBean.descricaoTooltip}"></h:outputText>
+										</rich:panel>
+							</rich:tooltip>	
+			                
+                
+                </rich:column>
+
+				<rich:column>
+					<f:facet name="header">Marca</f:facet>
+					<h:outputText value="#{carro.marca}"></h:outputText>
+					
+							<rich:tooltip hideDelay="0"  id="tooltip2" followMouse="true" mode="ajax" layout="block">
+							<rich:panel>
+									<h:outputText value="#{carroBean.descricaoTooltip}"></h:outputText>
+							</rich:panel>
+				</rich:tooltip>	
+				</rich:column>
+
+				<rich:column>
+					<f:facet name="header">Modelo</f:facet>
+					<h:outputText value="#{carro.modelo}"></h:outputText>
+				</rich:column>
+
+				<rich:column>
+					<f:facet name="header">Editar</f:facet>
+
+				</rich:column>
+
+				<rich:column>
+					<f:facet name="header">Excluir</f:facet>
+
+				</rich:column>				
+				
+
+				<f:facet name="footer">
+					<rich:dataScroller page="#{carroBean.page}" fastStep="3" />
+				</f:facet>
+
+			</rich:dataTable>
+		</div>
+
+
+		<div align="center">
+			<h:outputText value="#{carroBean.carroResumo.id}"></h:outputText>
+			<h:outputText value="#{carroBean.carroResumo.marca}"></h:outputText>
+			<h:outputText id="modeloOutText"
+				value="#{carroBean.carroResumo.modelo}"></h:outputText>
+		</div>
+
+
+		<!--Para o rendered="#{carroBean.exibirCarroResumo}"   funcionar, o painelGroup deve existir na árvore DOM como true por default
+		 Ou utilizamos o rendered no panelGrid ou criamos mais um painelGroup  e colocamos apenas o "id" para o render encontralo -->
+		<div align="center">
+			<h:panelGroup id="painelCarroResumo" layout="block">
+				<h:panelGrid columnClasses="panel" border="1" columns="4"
+					rendered="#{carroBean.exibirCarroResumo}">
+
+					<f:facet name="header">Resumo do Carro</f:facet>
+					<h:outputText value="#{carroBean.carroForm.id}"></h:outputText>
+					<h:outputText value="#{carroBean.carroForm.marca}"></h:outputText>
+					<h:outputText value="#{carroBean.carroForm.modelo}"></h:outputText>
+
+					<h:column>
+
+						<h:commandButton action="#" value="Editar"></h:commandButton>
+					</h:column>
+				</h:panelGrid>
+			</h:panelGroup>
+		</div>
+
+		<div align="center">
+			<h:panelGroup id="panelBtnConfirmarSalvar">
+				<h:panelGrid columnClasses="panel" border="1" columns="2"
+					rendered="#{carroBean.exibirCarroResumo}">
+					<f:facet name="header">Confirmar ou Salvar?</f:facet>
+					<div align="left">
+						<h:commandButton action="#" value="Confirmar"></h:commandButton>
+					</div>
+					<div align="right">
+						<h:commandButton action="#" value="Salvar"></h:commandButton>
+					</div>
+
+				</h:panelGrid>
+			</h:panelGroup>
+		</div>
+
+	</h:form>
+</h:body>
+
+</html>

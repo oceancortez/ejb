@@ -1,0 +1,72 @@
+body {
+	background-color: #d3d7cf;
+}
+.divCadastrar {
+	background-color: white;
+	width: 230px;
+}
+.divTable{
+	background-color: white;
+	padding-top: 10px;
+	padding-left: 75px;		
+	width: 400px;
+	height: 300px;
+	position: fixed;
+	margin-top: 20px;
+	text-align: center;
+	border-bottom-width: 1px;
+}
+
+input{
+	margin: 5px;
+    padding: 5px 5px 5px 20px; /* 20px makes room for your background image */
+    border: 2px solid #aaa;
+    background-color: #204a87;
+    background: blue;
+}
+
+.buttons .apply {
+    background: black;     
+} 
+
+.buttons .cross {
+    background: #eee url(path/to/cross.png) no-repeat 0 50%;
+}
+
+.richButton {
+    margin:1px 5px 0 0;
+    padding:5px 10px 5px 10px;
+    height:29px;
+    width: 150px;
+    font-size:12px;    
+    background-color: #204a87;
+    font-weight:bold;
+    border:10px #a40000solid;
+    border-radius:5px;
+    cursor:pointer;
+    font-family:Arial, Helvetica, sans-serif;    
+}
+
+.richButton:disabled {
+    font-weight: normal;
+    color: #729fcf;
+}
+
+/* .richButton:active:enabled {
+    IE10 Consumer Preview
+    background: -ms-linear-gradient(top, #F0F0F0 0%, #CCCCCC 100%);
+    Mozilla Firefox
+    background: -moz-linear-gradient(top, #F0F0F0 0%, #CCCCCC 100%);
+    Opera
+    background: -o-linear-gradient(top, #F0F0F0 0%, #CCCCCC 100%);
+    Webkit (Safari/Chrome 10)
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F0F0F0), color-stop(1, #CCCCCC));
+    Webkit (Chrome 11+)
+    background: -webkit-linear-gradient(top, #F0F0F0 0%, #CCCCCC 100%);
+    W3C Markup, IE10 Release Preview
+    background: linear-gradient(to bottom, #F0F0F0 0%, #CCCCCC 100%);
+} */
+
+
+
+#eee url(path/to/apply.png) no-repeat 0 50%;
